@@ -1,5 +1,3 @@
-
-
 from src.task6 import word_count
 
 # test the length of a book
