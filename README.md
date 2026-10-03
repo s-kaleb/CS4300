@@ -10,4 +10,8 @@ to the `settings.py` file inside the bookings app, and run the server on port 30
 python manage.py runserver 0.0.0.0:3000
 ```
 ### Resoures: 
-https://docs.djangoproject.com/en/6.1/intro/tutorial01/
+https://docs.djangoproject.com/en/6.1/intro/tutorial01/ : Starting up the project
+Pardot : Troubleshooting server port, model creation.
+
+https://docs.djangoproject.com/en/6.1/topics/db/models/ : Models implimentation
+https://docs.djangoproject.com/en/6.1/ref/models/fields/#django.db.models.ForeignKey : ForeignKey implimentation

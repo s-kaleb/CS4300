@@ -1,5 +1,5 @@
 """
-WSGI config for bookings project.
+WSGI config for movie_theater_booking project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bookings.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'movie_theater_booking.settings')
 
 application = get_wsgi_application()
