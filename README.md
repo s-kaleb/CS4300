@@ -16,4 +16,4 @@ Pardot : Troubleshooting server port, model creation.
 https://docs.djangoproject.com/en/6.1/topics/db/models/ : Models implimentation
 https://docs.djangoproject.com/en/6.1/ref/models/fields/#django.db.models.ForeignKey : ForeignKey implimentation
 
-ChatGPT conversation: 
+ChatGPT conversation: https://chatgpt.com/share/6ac15e5e-4c54-83e8-bb9d-957dc7b64b34 
