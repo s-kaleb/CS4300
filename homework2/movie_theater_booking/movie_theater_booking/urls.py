@@ -16,7 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+# https://docs.djangoproject.com/en/6.1/intro/tutorial03/
+from bookings import views
 
+# used to add views to a navigatable url
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls), 
+    path('', views.movie_list, name="movie_list")
 ]

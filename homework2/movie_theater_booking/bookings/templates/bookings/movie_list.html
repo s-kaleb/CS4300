@@ -1,0 +1,22 @@
+
+<!-- generated base template with devedu AI -->
+{% extends "bookings/base.html" %}
+
+{% block content %}
+	<h1>Movies</h1>
+
+	{% if movies %}
+		<ul>
+			{% for movie in movies %}
+				<li>
+					<h2>{{ movie.title }}</h2>
+					{% if movie.description %}<p>{{ movie.description }}</p>{% endif %}
+					{% if movie.release_date %}<p>Release date: {{ movie.release_date }}</p>{% endif %}
+					{% if movie.duration %}<p>Duration: {{ movie.duration }} minutes</p>{% endif %}
+				</li>
+			{% endfor %}
+		</ul>
+	{% else %}
+		<p>No movies are currently available.</p>
+	{% endif %}
+{% endblock %}
