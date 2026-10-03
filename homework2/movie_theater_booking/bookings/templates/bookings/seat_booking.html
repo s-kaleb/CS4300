@@ -1,0 +1,18 @@
+{% extends "bookings/base.html" %}
+
+{% block content %}
+	<h1>Seats</h1>
+
+	{% if seats %}
+		<ul>
+			{% for seat in seats %}
+				<li>
+					<h2>{{ seat }}</h2>
+					{% if seat.booking_status %}<p>Status: Occupied</p>{% else %}<p>Status: Available</p>{% endif %}
+				</li>
+			{% endfor %}
+		</ul>
+	{% else %}
+		<p>No seats are currently available.</p>
+	{% endif %}
+{% endblock %}

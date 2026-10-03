@@ -22,5 +22,7 @@ from bookings import views
 # used to add views to a navigatable url
 urlpatterns = [
     path('admin/', admin.site.urls), 
-    path('', views.movie_list, name="movie_list")
+    path('', views.movie_list, name="movie_list"),
+    path('booking_history/', views.booking_history, name="booking_history"),
+    path('seat_booking/', views.seat_booking, name="seat_booking"),
 ]
