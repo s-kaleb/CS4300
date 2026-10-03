@@ -1,1 +1,1 @@
-# CS4300 Homework locat
+# CS4300 Homework location
