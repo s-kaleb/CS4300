@@ -28,6 +28,9 @@ DEBUG = True
 ALLOWED_HOSTS = ['.devedu.io']
 CSRF_TRUSTED_ORIGINS = ['https://*.devedu.io']
 
+#login
+LOGIN_REDIRECT_URL = 'movie_list'
+LOGIN_URL = 'login'
 
 # Application definition
 

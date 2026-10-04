@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from bookings.models import Movie, Booking, Seat
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required
 def booking_history(request):
     # Retrieve all the bookings from the Booking table
     bookings = Booking.objects.all()
@@ -19,6 +21,7 @@ def movie_list(request):
 """
 
 # GPT seat_booking field with changes to match my needs
+@login_required
 def seat_booking(request):
     seats = Seat.objects.all()
     movies = Movie.objects.all()
