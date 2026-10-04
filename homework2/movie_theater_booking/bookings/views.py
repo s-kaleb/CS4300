@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from bookings.models import Movie, Booking, Seat
 from django.contrib.auth.decorators import login_required
 
+
+
 # Create your views here.
 @login_required
 def booking_history(request):
@@ -57,3 +59,39 @@ def seat_booking(request):
             "movies": movies,
         }
     )
+
+
+""" 
+The following views are for the REST API
+"""
+#Copied from https://www.django-rest-framework.org/tutorial/quickstart/#serializers
+# changed to match the booking system models and serializers using Devedu AI
+from rest_framework import permissions, viewsets
+from bookings.serializers import MovieSerializer, BookingSerializer, SeatSerializer
+
+
+class MovieViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows movies to be viewed or edited.
+    """
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class BookingViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows bookings to be viewed or edited.
+    """
+    queryset = Booking.objects.all()
+    serializer_class = BookingSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class SeatViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows seats to be viewed or edited.
+    """
+    queryset = Seat.objects.all()
+    serializer_class = SeatSerializer
+    permission_classes = [permissions.IsAuthenticated]

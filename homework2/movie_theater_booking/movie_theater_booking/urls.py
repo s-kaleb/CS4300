@@ -15,9 +15,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from rest_framework import routers
 from django.urls import path, include
 # https://docs.djangoproject.com/en/6.1/intro/tutorial03/
 from bookings import views
+
+# Initialize the router for the REST API: from Devedu AI
+router = routers.DefaultRouter()
+router.register(r'movies', views.MovieViewSet)
+router.register(r'bookings', views.BookingViewSet)
+router.register(r'seats', views.SeatViewSet)
+
 
 # used to add views to a navigatable url
 urlpatterns = [
@@ -26,5 +34,6 @@ urlpatterns = [
     path('booking_history/', views.booking_history, name="booking_history"),
     path('seat_booking/', views.seat_booking, name="seat_booking"),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('api-auth/', include('rest_framework.urls'))
+    path('api-auth/', include('rest_framework.urls', namespace="rest_framework")),
+    path('api/', include(router.urls))
 ]

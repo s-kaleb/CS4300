@@ -28,6 +28,12 @@ DEBUG = True
 ALLOWED_HOSTS = ['.devedu.io']
 CSRF_TRUSTED_ORIGINS = ['https://*.devedu.io']
 
+# Django REST Framework settings from https://www.django-rest-framework.org/tutorial/quickstart/#urls
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,
+}
+
 #login
 LOGIN_REDIRECT_URL = 'movie_list'
 LOGIN_URL = 'login'
