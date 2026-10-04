@@ -9,9 +9,10 @@
 				<!-- Header for the table, displays column titles -->
 				<thead>
 					<tr>
-						<th>Booking</th>
+						<th>Movie</th>
 						<th>Description</th>
 						<th>Seat</th>
+						<th>Booking Date</th>
 					</tr>
 				</thead>
 				<!-- Body for the table, displays each movie row -->
@@ -21,6 +22,7 @@
 							<td>{{ booking.movie }}</td>
 							<td>{{ booking.movie.description }}</td>
 							<td>{{ booking.seat }}</td>
+							<td>{{ booking.booking_date }}</td>
 						</tr>
 					{% endfor %}
 				</tbody>
