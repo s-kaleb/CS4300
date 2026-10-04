@@ -83,7 +83,17 @@ class BookingViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows bookings to be viewed or edited.
     """
+
     queryset = Booking.objects.all()
+    def get_queryset(self):
+        return Booking.objects.filter(user=self.request.user)
+    def perform_create(self, serializer):
+        booking = serializer.save(user=self.request.user)
+
+        seat = booking.seat
+        seat.booking_status = True
+        seat.save()
+
     serializer_class = BookingSerializer
     permission_classes = [permissions.IsAuthenticated]
 
