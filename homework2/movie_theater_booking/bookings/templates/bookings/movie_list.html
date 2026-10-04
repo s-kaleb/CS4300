@@ -1,27 +1,35 @@
 <!--This is the page where a user can go to view movies-->
 <!-- generated base template with devedu AI -->
+ <!-- This is an index page used to view all movies-->
 {% extends "bookings/base.html" %}
 
 {% block content %}
-	<!--Navigation between existing pages-->
-	<a href="{% url 'seat_booking' %}" class="btn btn-secondary">
-    		Book a movie
-	</a>
-	<a href="{% url 'booking_history' %}" class="btn btn-secondary">
-    		View bookings
-	</a>
+
 	<h1>Movies</h1>
 	{% if movies %}
-		<ul>
+		<!-- Table view of movies: devedu AI and https://getbootstrap.com/docs/3.4/css/?#tables -->
+		<table class="table table-striped">
+		<!-- Header for the table, displays column titles -->
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Description</th>
+				<th>Release Date</th>
+				<th>Duration</th>
+			</tr>
+		</thead>
+		<!-- Body for the table, displays each movie row -->
+		<tbody>
 			{% for movie in movies %}
-				<li>
-					<h2>{{ movie.title }}</h2>
-					{% if movie.description %}<p>{{ movie.description }}</p>{% endif %}
-					{% if movie.release_date %}<p>Release date: {{ movie.release_date }}</p>{% endif %}
-					{% if movie.duration %}<p>Duration: {{ movie.duration }} minutes</p>{% endif %}
-				</li>
+				<tr>
+					<td>{{ movie.title }}</td>
+					<td>{{ movie.description }}</td>
+					<td>{{ movie.release_date }}</td>
+					<td>{{ movie.duration_minutes }} minutes</td>
+				</tr>
 			{% endfor %}
-		</ul>
+		</tbody>
+		</table>
 	{% else %}
 		<p>No movies are currently available.</p>
 	{% endif %}

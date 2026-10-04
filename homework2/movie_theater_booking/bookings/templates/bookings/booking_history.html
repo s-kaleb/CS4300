@@ -2,20 +2,29 @@
 {% extends "bookings/base.html" %}
 
 {% block content %}
-	<!-- Navigation back to movie list -->
-	<a href="{% url 'movie_list' %}" class="btn btn-secondary">
-    	Go back to movie list
-	</a>
-	<h1>Booking History</h1>
+
+	<h1>Bookings</h1>
 	{% if bookings %}
-		<ul>
-			{% for booking in bookings %}
-				<li>
-					<h2>{{ booking }}</h2>
-					<p>User: {{ booking.user }}</p>
-				</li>
-			{% endfor %}
-		</ul>
+		<table class="table table-striped">
+			<!-- Header for the table, displays column titles -->
+			<thead>
+				<tr>
+					<th>Booking</th>
+					<th>Description</th>
+					<th>Seat</th>
+				</tr>
+			</thead>
+			<!-- Body for the table, displays each movie row -->
+			<tbody>
+				{% for booking in bookings %}
+					<tr>
+						<td>{{ booking.movie }}</td>
+						<td>{{ booking.movie.description }}</td>
+						<td>{{ booking.seat }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 	{% else %}
 		<p>No seats are currently available.</p>
 	{% endif %}

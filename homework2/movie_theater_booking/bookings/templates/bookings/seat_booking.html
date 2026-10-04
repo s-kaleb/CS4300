@@ -1,5 +1,6 @@
 <!--This is the page where a user can go to book a seat-->
 
+<!--This serves as as create page-->
 <!--Created with ChatGPT prompt-->
 
 {% extends "bookings/base.html" %}
@@ -11,7 +12,7 @@
     <h1 class="mb-4">Book a Seat</h1>
 
     <form method="POST">
-		# cross site request forgery protection
+		<!-- cross site request forgery protection -->
         {% csrf_token %}
 
         <!-- Movie -->
@@ -63,10 +64,7 @@
         <button type="submit" class="btn btn-primary">
             Book Seat
         </button>
-		<!-- Navigation back to movie list -->
-		<a href="{% url 'movie_list' %}" class="btn btn-secondary">
-    		Go back to movie list
-		</a>
+
 
     </form>
 
