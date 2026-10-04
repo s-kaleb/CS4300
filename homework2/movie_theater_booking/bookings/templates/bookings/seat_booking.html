@@ -11,6 +11,13 @@
 
     <h1 class="mb-4">Book a Seat</h1>
 
+	<!-- Display an error message if the booking fails Devedu AI-->
+    {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    {% endif %}
+
     <form method="POST">
 		<!-- cross site request forgery protection -->
         {% csrf_token %}

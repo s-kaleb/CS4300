@@ -38,18 +38,27 @@ def seat_booking(request):
         movie = Movie.objects.get(id=movie_id)
         seat = Seat.objects.get(id=seat_id)
 
-        Booking.objects.create(
-            movie=movie,
-            seat=seat,
-            user=request.user,
-            booking_date=booking_date
-        )
-        # Need to update the seat to show as taken
-        seat.booking_status = True
-        seat.save()
+        # Validate that the seat is available before creating a booking
+        if seat.booking_status:
+            # If the seat is already taken, don't let the booking be created
+            # return from Devedu AIs
 
-        #go to the booking history page to see booking
-        return redirect("booking_history")
+            return render(request, "bookings/seat_booking.html", {"seats": seats, "movies": movies, "error":"That seat is already taken."}, status=400)
+        
+        # If the seat is available, proceed to create the booking
+        else:
+            Booking.objects.create(
+                movie=movie,
+                seat=seat,
+                user=request.user,
+                booking_date=booking_date
+            )
+            # Need to update the seat to show as taken
+            seat.booking_status = True
+            seat.save()
+
+            #go to the booking history page to see booking
+            return redirect("booking_history")
 
     return render(
         request,
