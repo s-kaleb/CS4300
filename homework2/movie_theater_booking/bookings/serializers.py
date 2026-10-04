@@ -24,6 +24,10 @@ class BookingSerializer(serializers.ModelSerializer):
         seat = data.get("seat")
 
         if seat is not None and seat.booking_status:
-            raise serializers.ValidationError("This seat is already taken.")
+            # Allow the booking to keep its current seat ChatGPT
+            # self.instance refers to the current booking instance
+            # so this will pass only if the seat is changed to none or a new seat
+            if self.instance is None or seat != self.instance.seat:
+                raise serializers.ValidationError("This seat is already taken.")
         return data
         

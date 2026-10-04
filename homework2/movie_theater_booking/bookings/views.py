@@ -119,6 +119,7 @@ class BookingViewSet(viewsets.ModelViewSet):
         seat = instance.seat
         seat.booking_status = False
         seat.save()
+        super().perform_destroy(instance)
 
     serializer_class = BookingSerializer
     permission_classes = [permissions.IsAuthenticated]
