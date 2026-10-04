@@ -31,6 +31,7 @@ CSRF_TRUSTED_ORIGINS = ['https://*.devedu.io']
 #login
 LOGIN_REDIRECT_URL = 'movie_list'
 LOGIN_URL = 'login'
+LOGOUT_REDIRECT_URL = 'movie_list'
 
 # Application definition
 

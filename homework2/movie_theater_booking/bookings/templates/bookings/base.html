@@ -27,6 +27,27 @@
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'seat_booking' %}">Book a Seat</a>
               </li>
+              {% if user.is_authenticated %}
+                <!-- Used ChatGPT to fix the alignment of the logout form with the username -->
+                <li class="nav-item d-flex align-items-center">
+                  <!--Display the username of the authenticated user-->
+                  <span class="navbar-text me-3">
+                      Hi {{ user.username }}
+                  </span>
+                  <!-- Logout form for authenticated users -->
+                  <form method="POST" action="{% url 'logout' %}" class="m-0">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-outline-primary">
+                          Logout
+                      </button>
+                  </form>
+                </li>
+              {% else %}
+                <!-- Login link for unauthenticated users -->
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">login</a>
+              </li>
+              {% endif %}
             </ul>
           </div>
         </div>
