@@ -95,6 +95,31 @@ class BookingViewSet(viewsets.ModelViewSet):
         seat.booking_status = True
         seat.save()
 
+    # CHATGPT help received
+    def perform_update(self, serializer):
+        # Get the old seat before updating the booking
+        old_seat = self.get_object().seat
+
+        # Update the booking
+        booking = serializer.save()
+
+        # Free the old seat
+        old_seat.booking_status = False
+        old_seat.save()
+
+        # Mark the new seat as taken
+        new_seat = booking.seat
+        new_seat.booking_status = True
+        new_seat.save()
+
+
+    # Override the destroy method to free the seat when a booking is deleted: Devedu AI
+    def perform_destroy(self, instance):
+        # free the seat when a booking is deleted
+        seat = instance.seat
+        seat.booking_status = False
+        seat.save()
+
     serializer_class = BookingSerializer
     permission_classes = [permissions.IsAuthenticated]
 
