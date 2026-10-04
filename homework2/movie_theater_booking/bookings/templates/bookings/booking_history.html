@@ -2,30 +2,31 @@
 {% extends "bookings/base.html" %}
 
 {% block content %}
-
-	<h1>Bookings</h1>
-	{% if bookings %}
-		<table class="table table-striped">
-			<!-- Header for the table, displays column titles -->
-			<thead>
-				<tr>
-					<th>Booking</th>
-					<th>Description</th>
-					<th>Seat</th>
-				</tr>
-			</thead>
-			<!-- Body for the table, displays each movie row -->
-			<tbody>
-				{% for booking in bookings %}
+	<div class="container mt-5">
+		<h1>Bookings</h1>
+		{% if bookings %}
+			<table class="table table-striped">
+				<!-- Header for the table, displays column titles -->
+				<thead>
 					<tr>
-						<td>{{ booking.movie }}</td>
-						<td>{{ booking.movie.description }}</td>
-						<td>{{ booking.seat }}</td>
+						<th>Booking</th>
+						<th>Description</th>
+						<th>Seat</th>
 					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	{% else %}
-		<p>No seats are currently available.</p>
-	{% endif %}
+				</thead>
+				<!-- Body for the table, displays each movie row -->
+				<tbody>
+					{% for booking in bookings %}
+						<tr>
+							<td>{{ booking.movie }}</td>
+							<td>{{ booking.movie.description }}</td>
+							<td>{{ booking.seat }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<p>No bookings are currently available.</p>
+		{% endif %}
+	</div>
 {% endblock %}
