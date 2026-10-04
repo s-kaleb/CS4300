@@ -19,3 +19,11 @@ class BookingSerializer(serializers.ModelSerializer):
         model = Booking
         fields = "__all__"
         read_only_fields = ['user']
+    
+    def validate(self, data):
+        seat = data.get("seat")
+
+        if seat is not None and seat.booking_status:
+            raise serializers.ValidationError("This seat is already taken.")
+        return data
+        
