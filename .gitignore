@@ -1,0 +1,7 @@
+# virtual environments
+homework1_venv/
+homework2_venv/
+
+# Python bytecode
+__pycache__/
+*.pyc
