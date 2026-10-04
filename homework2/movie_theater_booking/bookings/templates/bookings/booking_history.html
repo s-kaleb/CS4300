@@ -1,8 +1,12 @@
+<!--This is the page where a user can go to view their booking history-->
 {% extends "bookings/base.html" %}
 
 {% block content %}
+	<!-- Navigation back to movie list -->
+	<a href="{% url 'movie_list' %}" class="btn btn-secondary">
+    	Go back to movie list
+	</a>
 	<h1>Booking History</h1>
-
 	{% if bookings %}
 		<ul>
 			{% for booking in bookings %}

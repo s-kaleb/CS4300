@@ -1,18 +1,75 @@
+<!--This is the page where a user can go to book a seat-->
+
+<!--Created with ChatGPT prompt-->
+
 {% extends "bookings/base.html" %}
 
 {% block content %}
-	<h1>Seats</h1>
 
-	{% if seats %}
-		<ul>
-			{% for seat in seats %}
-				<li>
-					<h2>{{ seat }}</h2>
-					{% if seat.booking_status %}<p>Status: Occupied</p>{% else %}<p>Status: Available</p>{% endif %}
-				</li>
-			{% endfor %}
-		</ul>
-	{% else %}
-		<p>No seats are currently available.</p>
-	{% endif %}
+<div class="container mt-5">
+
+    <h1 class="mb-4">Book a Seat</h1>
+
+    <form method="POST">
+		# cross site request forgery protection
+        {% csrf_token %}
+
+        <!-- Movie -->
+        <div class="mb-3">
+            <label for="movie" class="form-label">Select a movie</label>
+
+            <select name="movie" id="movie" class="form-select">
+                <option value="">Choose a movie...</option>
+
+                {% for movie in movies %}
+                    <option value="{{ movie.id }}">
+                    	{{ movie.title }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Seat -->
+        <div class="mb-3">
+            <label for="seat" class="form-label">Select a seat</label>
+
+            <select name="seat" id="seat" class="form-select">
+                <option value="">Choose a seat...</option>
+
+                {% for seat in seats %}
+                    {% if not seat.booking_status %}
+                        <option value="{{ seat.id }}">
+                            Seat {{ seat.seat_number }}
+                        </option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Date -->
+        <div class="mb-3">
+            <label for="booking_date" class="form-label">
+                Booking date
+            </label>
+
+            <input
+                type="date"
+                name="booking_date"
+                id="booking_date"
+                class="form-control"
+            >
+        </div>
+		<!-- type = submit to submit the form enteres the views.py loop to save data to db-->
+        <button type="submit" class="btn btn-primary">
+            Book Seat
+        </button>
+		<!-- Navigation back to movie list -->
+		<a href="{% url 'movie_list' %}" class="btn btn-secondary">
+    		Go back to movie list
+		</a>
+
+    </form>
+
+</div>
+
 {% endblock %}
