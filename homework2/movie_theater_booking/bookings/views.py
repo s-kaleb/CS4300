@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def booking_history(request):
     # Retrieve all the bookings from the Booking table
-    bookings = Booking.objects.all()
+    bookings = Booking.objects.filter(user=request.user)
     # Pass the bookings to the template for access on the page
     return render(request, "bookings/booking_history.html", {"bookings": bookings})
 

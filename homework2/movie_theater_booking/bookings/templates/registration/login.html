@@ -1,9 +1,12 @@
 {% extends "bookings/base.html" %}
 
 {% block content %}
-<form method="post">
-	{% csrf_token %}
-	{{ form.as_p }}
-	<button type="submit">Log in</button>
-</form>
+<div class="container mt-5 border">
+		<h1>Log-in</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Log in</button>
+        </form>
+</div>
 {% endblock %}

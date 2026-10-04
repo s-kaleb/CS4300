@@ -15,18 +15,15 @@
 						<th>Booking Date</th>
 					</tr>
 				</thead>
-				<!-- Body for the table, displays each movie row -->
+				<!-- Body for the table, displays each booking row -->
 				<tbody>
 					{% for booking in bookings %}
-						<!-- Only display bookings made by the current user -->
-						{% if booking.user == user %}
 						<tr>
 							<td>{{ booking.movie }}</td>
 							<td>{{ booking.movie.description }}</td>
 							<td>{{ booking.seat }}</td>
 							<td>{{ booking.booking_date }}</td>
 						</tr>
-						{% endif %}
 					{% endfor %}
 				</tbody>
 			</table>
