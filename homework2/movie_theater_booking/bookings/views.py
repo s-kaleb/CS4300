@@ -35,14 +35,20 @@ def seat_booking(request):
         seat_id = request.POST["seat"]
         booking_date = request.POST["booking_date"]
 
-        movie = Movie.objects.get(id=movie_id)
-        seat = Seat.objects.get(id=seat_id)
+        # make sure a valid id is entered for movie and seat
+        if not movie_id or not seat_id or not booking_date:
+            return render(request, "bookings/seat_booking.html", {"seats": seats, "movies": movies, "error":"Invalid input."}, status=400)
+        try:
+            movie = Movie.objects.get(id=movie_id)
+            seat = Seat.objects.get(id=seat_id)
+        except (Movie.DoesNotExist, Seat.DoesNotExist):
+            return render(request, "bookings/seat_booking.html", {"seats": seats, "movies": movies, "error":"Invalid input."}, status=400)
+    
 
         # Validate that the seat is available before creating a booking
         if seat.booking_status:
             # If the seat is already taken, don't let the booking be created
             # return from Devedu AIs
-
             return render(request, "bookings/seat_booking.html", {"seats": seats, "movies": movies, "error":"That seat is already taken."}, status=400)
         
         # If the seat is available, proceed to create the booking
