@@ -31,12 +31,11 @@ def seat_booking(request):
     # If the user has created a booking and presses the submit button
     # we need to update the database with that new entry
     if request.method == "POST":
-        """movie_id = request.POST["movie"]
-        seat_id = request.POST["seat"]
-        booking_date = request.POST["booking_date"]"""
         movie_id = request.POST.get("movie")
         seat_id = request.POST.get("seat")
         booking_date = request.POST.get("booking_date")
+
+
 
         # make sure a valid id is entered for movie and seat
         if not movie_id or not seat_id or not booking_date:
