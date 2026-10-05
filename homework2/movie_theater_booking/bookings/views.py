@@ -148,3 +148,9 @@ class SeatViewSet(viewsets.ModelViewSet):
     queryset = Seat.objects.all()
     serializer_class = SeatSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    # Devedu AI This function prevents a user from changing the bookings status of an existing seat.
+    def perform_update(self, serializer):
+        # Preserve the seat's booking status when updating other seat fields.
+        original_booking_status = self.get_object().booking_status
+        serializer.save(booking_status=original_booking_status)
