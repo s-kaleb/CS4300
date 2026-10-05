@@ -16,17 +16,14 @@ def movie_list(request):
     movies = Movie.objects.all()
     return render(request, "bookings/movie_list.html", {"movies": movies})
     
-"""def seat_booking(request):
-    seats = Seat.objects.all()
-    movies = Movie.objects.all()
-    return render(request, "bookings/seat_booking.html", {"seats": seats, "movies": movies})
-"""
 
 # GPT seat_booking field with changes to match my needs
 @login_required
 def seat_booking(request):
     seats = Seat.objects.all()
     movies = Movie.objects.all()
+
+
 
     # If the user has created a booking and presses the submit button
     # we need to update the database with that new entry
@@ -39,12 +36,14 @@ def seat_booking(request):
 
         # make sure a valid id is entered for movie and seat
         if not movie_id or not seat_id or not booking_date:
-            return render(request, "bookings/seat_booking.html", {"seats": seats, "movies": movies, "error":"Invalid input."}, status=400)
+            return render(request, "bookings/seat_booking.html", {"seats": seats, "movies": movies, "error":"Have to enter a value for all fields."}, status=400)
+        
+        #catches ids that don't exist and ids that are not ints
         try:
             movie = Movie.objects.get(id=movie_id)
             seat = Seat.objects.get(id=seat_id)
-        except (Movie.DoesNotExist, Seat.DoesNotExist):
-            return render(request, "bookings/seat_booking.html", {"seats": seats, "movies": movies, "error":"Invalid input."}, status=400)
+        except (Movie.DoesNotExist, Seat.DoesNotExist, ValueError):
+            return render(request, "bookings/seat_booking.html", {"seats": seats, "movies": movies, "error":"The Movie or Seat entered does not exist."}, status=400)
     
 
         # Validate that the seat is available before creating a booking
