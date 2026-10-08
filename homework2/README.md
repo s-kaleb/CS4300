@@ -77,3 +77,5 @@ Run the migration: `python manage.py migrate`
 Create a superuser: `python manage.py createsuperuser`
 
 Run the app: `python manage.py runserver 0.0.0.0:3000`
+
+Run the app using gunicorn: `python -m gunicorn mysite.asgi:application -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:3000`
