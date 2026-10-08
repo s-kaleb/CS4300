@@ -10,6 +10,7 @@ to the `settings.py` file inside the bookings app, and run the server on port 30
 python manage.py runserver 0.0.0.0:3000
 ```
 To run a new migration: `python ./movie_theater_booking/manage.py makemigrations bookings`
+
 ### Resoures: 
 https://docs.djangoproject.com/en/6.1/intro/tutorial01/ : Starting up the project
 
@@ -23,6 +24,8 @@ https://chatgpt.com/share/6ac15e5e-4c54-83e8-bb9d-957dc7b64b34 : ChatGPT convers
 
 https://getbootstrap.com/docs/5.3/getting-started/introduction/ : Bootstrap CSS implimentation in base.html
 
+https://behave-django.readthedocs.io/en/stable/: Behave test implementation
+
 ### AI Tools
 
 Pardot : Troubleshooting server port, model creation.
@@ -30,3 +33,7 @@ Devedu AI: Created the basic template formatting for movie_list.html, booking_hi
 Claude: Creating test cases for Unit, Integration, and Behave.
 
 ### Running tests
+
+`python manage.py test`
+
+`python manage.py behave`
