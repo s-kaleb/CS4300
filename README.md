@@ -13,9 +13,6 @@ To run a new migration: `python ./movie_theater_booking/manage.py makemigrations
 ### Resoures: 
 https://docs.djangoproject.com/en/6.1/intro/tutorial01/ : Starting up the project
 
-Pardot : Troubleshooting server port, model creation.
-Devedu AI: Created the basic template formatting for movie_list.html, booking_history.html, and seat_booking.html 
-
 https://docs.djangoproject.com/en/6.1/topics/db/models/ : Models implimentation
 
 https://docs.djangoproject.com/en/6.1/intro/tutorial02/ : Running first migration
@@ -26,3 +23,10 @@ https://chatgpt.com/share/6ac15e5e-4c54-83e8-bb9d-957dc7b64b34 : ChatGPT convers
 
 https://getbootstrap.com/docs/5.3/getting-started/introduction/ : Bootstrap CSS implimentation in base.html
 
+### AI Tools
+
+Pardot : Troubleshooting server port, model creation.
+Devedu AI: Created the basic template formatting for movie_list.html, booking_history.html, and seat_booking.html 
+Claude: Creating test cases for Unit, Integration, and Behave.
+
+### Running tests
