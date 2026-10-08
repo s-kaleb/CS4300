@@ -9,7 +9,7 @@ To run a new migration: `python ./movie_theater_booking/manage.py makemigrations
 ## Description
 This is a movie booking app.
 
-You can create a user, login, and create bookings based on available movies and seats.
+You can login to an existing account, and create bookings based on available movies and seats.
 
 You can access your data through the api via the /api/ pages.
 
@@ -31,7 +31,7 @@ https://behave-django.readthedocs.io/en/stable/: Behave test implementation
 
 ## AI Tools
 
-Pardot : Troubleshooting server port, model creation, checking my repo, advise on next steps.
+Pardot : Troubleshooting server port, model creation, checking my repo, advise on next steps, help on README.
 
 Devedu AI: Created the basic template formatting for movie_list.html, booking_history.html, and seat_booking.html 
 
@@ -47,17 +47,20 @@ Must be in the folder containing manage.py to run the tests.
 ## Project Structure
 bookings/: Contains the app data including: migrations, templates, models, etc.
 
+    templates/: templates used for view.py
+
+    migrations/: chain of migrations for the sql database
+
 features/: Contains the behave test
 
 movie_theater_booking/: contains the project information, settings, urls, etc.
 
-templates/: templates used for view.py
-
-migrations/: chain of migrations for the sql database
 
 
 ## Setup from scratch
 Clone Repo: https://github.com/s-kaleb/CS4300.git
+
+Navigate to homework2: `cd homework2`
 
 Create Venv: 
 
@@ -67,7 +70,7 @@ source <venv name>/bin/activate
 pip install -r requirements.txt
 ```
 
-Run the migration: `python ./movie_theater_booking/manage.py makemigrations bookings`
+Run the migration: `python manage.py migrate`
 
 Create a superuser: `python manage.py createsuperuser`
 
