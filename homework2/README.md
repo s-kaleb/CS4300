@@ -29,6 +29,8 @@ https://getbootstrap.com/docs/5.3/getting-started/introduction/ : Bootstrap CSS 
 
 https://behave-django.readthedocs.io/en/stable/: Behave test implementation
 
+https://render.com/docs/deploy-django: Deployment
+
 ## AI Tools
 
 Pardot : Troubleshooting server port, model creation, checking my repo, advise on next steps, help on README.
