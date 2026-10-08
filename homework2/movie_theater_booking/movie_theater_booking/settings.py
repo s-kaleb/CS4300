@@ -26,8 +26,8 @@ SECRET_KEY = 'django-insecure-=ddn_x6ihiln@@3s&5w+rf0907g^a79h=6v%5n0#%cw80ua9fc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.devedu.io']
-CSRF_TRUSTED_ORIGINS = ['https://*.devedu.io', 'https://mysite-flp8.onrender.com']
+ALLOWED_HOSTS = ['.devedu.io', 'mysite-flp8.onrender.com']
+CSRF_TRUSTED_ORIGINS = ['https://*.devedu.io']
 
 # Django REST Framework settings from https://www.django-rest-framework.org/tutorial/quickstart/#urls
 REST_FRAMEWORK = {
