@@ -10,7 +10,6 @@ to the `settings.py` file inside the bookings app, and run the server on port 30
 python manage.py runserver 0.0.0.0:3000
 ```
 To run a new migration: `python ./movie_theater_booking/manage.py makemigrations bookings`
-
 ### Resoures: 
 https://docs.djangoproject.com/en/6.1/intro/tutorial01/ : Starting up the project
 
