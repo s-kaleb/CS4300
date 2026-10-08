@@ -73,9 +73,9 @@ class BaseTestCase(TestCase):
             booking_date="2030-01-02",
         )
 
-#####################################
-# Views: Claude Implementation
-#####################################
+######################################################
+# Views: Adapted from Claude Implementation
+######################################################
 
 # tests for booking_history view, and template.
 class BookingHistoryViewTests(BaseTestCase):
@@ -268,12 +268,203 @@ class SeatBookingViewTests(BaseTestCase):
         # pass if the seat is booked
         self.assertTrue(self.seat_free1.booking_status)
 
+######################################################
+# INTEGRATION TESTS adapted from Claude Implementation
+######################################################
 
-# Models
+# Setup for the API, signing in as testuser1
+class APIBaseTestCase(BaseTestCase):
+    def setUp(self):
+        self.api = APIClient()
+        self.api.force_authenticate(user=self.user1)
+ 
+# tests for the movie view set
+class MovieViewSetTests(APIBaseTestCase):
+    # test if an unauthenticated user request is rejected
+    def test_unauthenticated_rejected(self):
+        # make an apiclient instance and send a Get request to API
+        response = APIClient().get(reverse(API_MOVIES))
+        # passes if the error code is 401 or 403
+        self.assertIn(response.status_code, (401, 403))
+    
+    # test is an authenticated user can access the movies in the API
+    def test_authenticated_list(self):
+        # make a Get request to the API, signed in as testuser1
+        response = self.api.get(reverse(API_MOVIES))
+        # passes if the request was successful
+        self.assertEqual(response.status_code, 200)
+        # passes if the retrieved number of movies is correct
+        self.assertEqual(response.data["count"], 2)  # paginated response
+ 
 
+# tests for the bookingviewset 
+class BookingViewSetTests(APIBaseTestCase):
+    # test if an unauthenticated user request is rejected
+    def test_unauthenticated_rejected(self):
+        # make a new APIclient instance not logged in, and send a Get request to the API
+        response = APIClient().get(reverse(API_BOOKINGS_LIST))
+        #passes if the error code is 401 or 403
+        self.assertIn(response.status_code, (401, 403))
+ 
+    # test if authorized user can access their bookings
+    def test_list_returns_only_own_bookings(self):
+        # make a Get request to the API as testuser1
+        response = self.api.get(reverse(API_BOOKINGS_LIST))
+        # passes if the request was successful
+        self.assertEqual(response.status_code, 200)
+        # Gathers the ids from the bookings associated with testuser1
+        ids = [b["id"] for b in response.data["results"]]
+        # passes if the ids matches the expected booking id for testuser1
+        self.assertEqual(ids, [self.booking1.id])
+ 
+    # test if creating a booking sets the user and marks the seat as taken
+    def test_create_sets_user_and_marks_seat_taken(self):
+        #make a valid post request to create a new booking
+        response = self.api.post(
+            reverse(API_BOOKINGS_LIST),
+            {
+                "movie": self.movie1.id,
+                "seat": self.seat_free1.id,
+                "booking_date": "2030-05-05",
+            },
+            format="json",
+        )
+        #passes if the booking was created successfully
+        self.assertEqual(response.status_code, 201)
+        #get the new booking from the database
+        booking = Booking.objects.get(id=response.data["id"])
+        #passes if the new bookings user is testuser1
+        self.assertEqual(booking.user, self.user1)
+        #update the seat 
+        self.seat_free1.refresh_from_db()
+        #passes if the seat is now taken
+        self.assertTrue(self.seat_free1.booking_status)
+ 
+    # test if creating a booking with a taken seat returns 400 error
+    def test_create_with_taken_seat_returns_400(self):
+        # make a post request with a taken seat
+        response = self.api.post(
+            reverse(API_BOOKINGS_LIST),
+            {
+                "movie": self.movie1.id,
+                "seat": self.seat_taken2.id,
+                "booking_date": "2030-05-05",
+            },
+            format="json",
+        )
+        # passes if the error code 400 is returned
+        self.assertEqual(response.status_code, 400)
+        # passes if the booking wasn't created
+        self.assertEqual(Booking.objects.count(), 2)
+ 
+    # test if updating a booking to a new seat frees the old seat and takes the new one
+    def test_update_to_new_seat_frees_old_and_takes_new(self):
+        # Make a request to update the seat to seat_free1
+        response = self.api.patch(
+            reverse(API_BOOKING_DETAIL, args=[self.booking1.id]),
+            {"seat": self.seat_free1.id},
+            format="json",
+        )
+        # passes if the request was successful
+        self.assertEqual(response.status_code, 200)
+        # refresh to get updated booking_status
+        self.seat_taken1.refresh_from_db()
+        # refresh to get the updated booking_status
+        self.seat_free1.refresh_from_db()
+        # passes if the old seat is free
+        self.assertFalse(self.seat_taken1.booking_status)
+        # passes if the new seat is taken
+        self.assertTrue(self.seat_free1.booking_status)
+ 
+    # test if updating a booking while keeping the same seat leaves the seat taken
+    def test_update_keeping_same_seat_leaves_seat_taken(self):
+        # make a request to update the booking date while keeping seat the same
+        response = self.api.patch(
+            reverse(API_BOOKING_DETAIL, args=[self.booking1.id]),
+            {"booking_date": "2031-01-01"},
+            format="json",
+        )
+        # passes if the request was successful
+        self.assertEqual(response.status_code, 200)
+        # refresh the seat to get the updated booking_status
+        self.seat_taken1.refresh_from_db()
+        # passes if the seat is still taken
+        self.assertTrue(self.seat_taken1.booking_status)
+ 
+    # test if updating a booking to a taken seat returns 400 error
+    def test_update_to_taken_seat_returns_400(self):
+        # make a request to update the seat to a taken seat
+        response = self.api.patch(
+            reverse(API_BOOKING_DETAIL, args=[self.booking1.id]),
+            {"seat": self.seat_taken2.id},
+            format="json",
+        )
+        # passes if the request returns an error code 400
+        self.assertEqual(response.status_code, 400)
 
-# Accounts
-
-
-
-# INTEGRATION TESTS
+    # test if deleting a booking updates the booking_status
+    def test_delete_removes_booking_and_frees_seat(self):
+        # make a request to delete the booking
+        response = self.api.delete(
+            reverse(API_BOOKING_DETAIL, args=[self.booking1.id])
+        )
+        # passes if the request was successful
+        self.assertEqual(response.status_code, 204)
+        # passes if the booking is deleted
+        self.assertFalse(Booking.objects.filter(id=self.booking1.id).exists())
+        # refresh the seat to get the updated booking_status
+        self.seat_taken1.refresh_from_db()
+        # passes if the seat is free
+        self.assertFalse(self.seat_taken1.booking_status)
+ 
+    # test if testuser1 can access testuser2's booking
+    def test_cannot_access_other_users_booking(self):
+        # get the path to the booking for testuser2
+        url = reverse(API_BOOKING_DETAIL, args=[self.booking2.id])
+        # passes if the request returns a 404 error
+        self.assertEqual(self.api.get(url).status_code, 404)
+        #passes if updating the booking fails and returns 404 error
+        self.assertEqual(
+            self.api.patch(url, {"seat": self.seat_free1.id}, format="json").status_code,
+            404,
+        )
+        # passes if failts to delete the booking and returns 404 error
+        self.assertEqual(self.api.delete(url).status_code, 404)
+        # passes if the booking wasn't deleted from the database
+        self.assertTrue(Booking.objects.filter(id=self.booking2.id).exists())
+ 
+ # tests for the SeatViewSet
+class SeatViewSetTests(APIBaseTestCase):
+    
+    # test if the unauthenticated user is unable to access the seats list
+    def test_unauthenticated_rejected(self):
+        # make a APIClient Get request for seat list
+        response = APIClient().get(reverse(API_SEATS_LIST))
+        # passes if an error code 401 or 403 is returned
+        self.assertIn(response.status_code, (401, 403))
+    
+    # test if the authenticated user can access the seats list
+    def test_authenticated_list(self):
+        # make a get request for the seats list
+        response = self.api.get(reverse(API_SEATS_LIST))
+        # passes if the request was successful
+        self.assertEqual(response.status_code, 200)
+        # passes if the number of seats matches the expected number
+        self.assertEqual(response.data["count"], 4)
+ 
+    # test if updating a seat cannot change the booking status
+    def test_update_cannot_change_booking_status(self):
+        # make a patch request to update the seats booking status
+        response = self.api.patch(
+            reverse(API_SEAT_DETAIL, args=[self.seat_free1.id]),
+            {"seat_number": 99, "booking_status": True},
+            format="json",
+        )
+        # passes if the request was successful
+        self.assertEqual(response.status_code, 200)
+        # refresh the seat to get the updated booking_status
+        self.seat_free1.refresh_from_db()
+        # passes if the seat number was updated
+        self.assertEqual(self.seat_free1.seat_number, 99)
+        # passes if the booking status is still false
+        self.assertFalse(self.seat_free1.booking_status)  
