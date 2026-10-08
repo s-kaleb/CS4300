@@ -71,6 +71,7 @@ python3 -m venv <venv name>
 source <venv name>/bin/activate
 pip install -r requirements.txt
 ```
+Navigate to the project: `cd movie_theater_booking`
 
 Run the migration: `python manage.py migrate`
 
@@ -78,7 +79,7 @@ Create a superuser: `python manage.py createsuperuser`
 
 Run the app: `python manage.py runserver 0.0.0.0:3000`
 
-Run the app using gunicorn: `python -m gunicorn mysite.asgi:application -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:3000`
+Run the app using gunicorn: `python -m gunicorn movie_theater_booking.asgi:application -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:3000`
 
 ## Deployment URL
 

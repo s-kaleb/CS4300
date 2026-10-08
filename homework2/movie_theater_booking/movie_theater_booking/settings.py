@@ -21,10 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=ddn_x6ihiln@@3s&5w+rf0907g^a79h=6v%5n0#%cw80ua9fc'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-dev-only-key-change-me')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = 'RENDER' not in os.environ
 
 ALLOWED_HOSTS = ['.devedu.io', 'mysite-flp8.onrender.com']
 CSRF_TRUSTED_ORIGINS = ['https://*.devedu.io']
